@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #ifndef _Array_h
 #define _CRT_SECURE_NO_WARNINGS
 #define _Array_h
@@ -15,7 +16,7 @@ class Array_ {
         Array_(int arrSize, int curElemNum);
         Array_(const Array_& obj);
         ~Array_();
-        void printArray();
+        std::string printArray();
         void addElem(unsigned int num, int first, ...);
         void replaceElem(int position, int newElem);
         void deleteElem(int position);

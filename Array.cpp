@@ -1,12 +1,14 @@
 #include <iostream>
+#include <string>
 #include "Array.h"
+using namespace std;
+
         Array_::Array_() {
             arrSize = 0;
             curElemNum = 0;
             point = nullptr;
             lastElemNum = 0;
         }
-
         Array_::Array_(int arrSize, int curElemNum) {
             this->arrSize = arrSize;
             this->curElemNum = curElemNum;
@@ -26,14 +28,21 @@
             delete[] point;
         }
 
-        void Array_::printArray() {
-            printf("Array:\n");
+        string Array_::printArray() {
+            string str = "";
             for (curElemNum = 0; curElemNum < arrSize && curElemNum != lastElemNum + 1; curElemNum++)
             {
-                printf("%i\n", point[curElemNum]);
+                if (curElemNum<lastElemNum)
+                {
+                    str += to_string(point[curElemNum]) + ", ";
+                }
+                else {
+                    str += to_string(point[curElemNum]);
+                }
+
             }
-            printf("\n");
             curElemNum = 0;
+            return str;
         }
 
         void Array_::addElem(unsigned int num, int first, ...) {
@@ -96,8 +105,4 @@
                 printf("\nIndex outside the array");
                 return -1;
             }
-        }
-
-
-
-    
+        }  

@@ -1,8 +1,11 @@
 #include "Array.h"   
 #include "Tests.h"
 #include <iostream>
+#include <string>
 
-        bool Test::Test1_Add_Elem(Array_& actual) {
+using namespace std;
+
+        bool Test::Test1_Add_Elem(Array_ &actual) {
 
             //Expected
             int expected[10]{ 1,2,3,4,5,6,7,8,9,10 };
@@ -24,7 +27,7 @@
             return rez;
         }
 
-        bool Test::Test2_Get_15th_Elem(Array_ arr) {
+        bool Test::Test2_Get_15th_Elem(Array_ &arr) {
             int expected = -1;
 
             int actual = arr.getElem(15);
@@ -39,7 +42,7 @@
                 return false;
             }
         }
-        bool Test::Test3_Get_5th_Elem(Array_ arr) {
+        bool Test::Test3_Get_5th_Elem(Array_ &arr) {
             int expected = 6;
 
             int actual = arr.getElem(5);
@@ -55,7 +58,7 @@
             }
         }
 
-        bool Test::Test4_Search_6(Array_ arr) {
+        bool Test::Test4_Search_6(Array_ &arr) {
             int expected = 5;
 
             int actual = arr.searchElem(6);
@@ -67,7 +70,7 @@
             else return false;
         }
 
-        bool Test::Test5_Search_16(Array_ arr) {
+        bool Test::Test5_Search_16(Array_ &arr) {
             int expected = -1;
 
             int actual = arr.searchElem(16);
@@ -82,7 +85,7 @@
             }
         }
 
-        bool Test::Test6_Delete_5th_Elem(Array_ actual) {
+        bool Test::Test6_Delete_5th_Elem(Array_ &actual) {
             int expected[10]{ 1,2,3,4,5,7,8,9,10 };
 
             actual.deleteElem(5);
@@ -101,7 +104,7 @@
             return rez;
         }
 
-        bool Test::Test7_Replace_4th_Elem_To_11(Array_ actual) {
+        bool Test::Test7_Replace_4th_Elem_To_11(Array_ &actual) {
             int expected[10]{ 1,2,3,4,11,7,8,9,10 };
 
             actual.replaceElem(4, 11);
@@ -112,6 +115,21 @@
             }
             else {
                 std::cout << "\nExpected: " << expected[4] << "; Actual: " << actual.getElem(4) << std::endl;
+                return false;
+            }
+        }
+
+        bool Test::Test8_PrintArray(Array_ arr) {
+            string expected = "1, 2, 3, 4, 11, 7, 8, 9, 10";
+
+            string actual = arr.printArray();
+            
+            cout << endl << "Expected: " << expected << endl << "Actual:   " << actual;
+
+            if (expected == actual) {
+                return true;
+            }
+            else {
                 return false;
             }
         }
