@@ -16,7 +16,7 @@ void main()
     std::cout << "\nTest5: " << test.Test5_Search_16(arr) << std::endl << std::endl;
     std::cout << "\nTest6: " << test.Test6_Delete_5th_Elem(arr) << std::endl;
     std::cout << "\nTest7: " << test.Test7_Replace_4th_Elem_To_11(arr) << std::endl;
-    std::cout << "\nTest8: " << test.Test8_PrintArray(arr) << std::endl;
+    std::cout << "\nTest8: " << test.Test8_toString(arr) << std::endl;
 
 
     int wait;

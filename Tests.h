@@ -12,6 +12,6 @@ public:
     bool Test5_Search_16(Array_ &arr);
     bool Test6_Delete_5th_Elem(Array_ &actual);
     bool Test7_Replace_4th_Elem_To_11(Array_ &actual);
-    bool Test8_PrintArray(Array_ arr);
+    bool Test8_toString(Array_ arr);
 };
 
