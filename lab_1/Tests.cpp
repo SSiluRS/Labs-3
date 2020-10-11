@@ -118,7 +118,7 @@ bool Test::Test7_Replace_4th_Elem_To_11(Array_ &actual) {
     }
 }
 
-bool Test::Test8_toString(Array_ arr) {
+bool Test::Test8_toString(Array_ &arr) {
     char* expected = new char[256]{"1, 2, 3, 4, 11, 7, 8, 9, 10"};
 
     char* actual = arr.toString();
@@ -131,4 +131,23 @@ bool Test::Test8_toString(Array_ arr) {
     else {
         return false;
     }
+}
+
+bool Test::Test9_Check_Static_Member(Array_ &arr) {
+
+    int expected = 5;
+
+    Array_ arr2 = Array_();
+    Array_ arr3 = Array_();
+    Array_ arr4 = arr;
+    Array_ arr5 = Array_();
+    arr5.~Array_();
+    Array_ arr6 = Array_();
+
+    int actual = Array_::arr_count;
+    if (expected == actual)
+    {
+        return true;
+    }
+    return false;
 }

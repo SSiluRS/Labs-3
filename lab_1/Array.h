@@ -16,6 +16,7 @@ class Array_ {
         int searchElem(int elem);
         int getElem(int position);
         int getArrSize();
+        static int arr_count;
 
     private:
         int arrSize;

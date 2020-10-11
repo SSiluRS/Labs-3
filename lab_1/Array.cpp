@@ -1,12 +1,13 @@
 #include <iostream>
 #include "Array.h"
 using namespace std;
-
+int Array_::arr_count = 0;
 Array_::Array_() {
     arrSize = 0;
     curElemNum = 0;
     point = nullptr;
     lastElemNum = 0;
+    arr_count++;
 }
 
 Array_::Array_(int arrSize, int curElemNum) {
@@ -14,6 +15,7 @@ Array_::Array_(int arrSize, int curElemNum) {
     this->curElemNum = curElemNum;
     this->point = new int[arrSize];
     this->lastElemNum = -1;
+    arr_count++;
 }
 
 Array_::Array_(const Array_& obj) {
@@ -22,10 +24,12 @@ Array_::Array_(const Array_& obj) {
     this->lastElemNum = obj.lastElemNum;
     point = new int[arrSize];
     std::copy(obj.point, obj.point + arrSize, this->point);
+    arr_count++;
 }
 
 Array_::~Array_() {
     delete[] point;
+    arr_count--;
 }
 
 char* addChar(int* point, int curElemNum, char* str, int& i, bool last, int& strLen, int& N) {
@@ -49,7 +53,6 @@ char* addChar(int* point, int curElemNum, char* str, int& i, bool last, int& str
             char* strTemp = new char[N];
             N *= 2;
             strTemp = _strdup(str1);
-            delete[] str1;
             str1 = new char[N];
             str1 = _strdup(strTemp);
         }
