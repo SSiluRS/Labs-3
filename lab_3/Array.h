@@ -30,7 +30,6 @@ class Array_ {
         Array_& operator--();
         friend ostream& operator<<(ostream& os, Array_ &ar);
         friend istream& operator>>(istream& is, Array_ &ar);
-        friend ofstream& operator<<(ofstream& os, Array_& ar);
         friend ifstream& operator>> (ifstream& is, Array_& ar);
         void writeToBinFile(char* path);
         void readFromBinFile(char* path);

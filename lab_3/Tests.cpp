@@ -68,27 +68,3 @@ bool Test::Test2_WriteAndReadBinFile(Array_ &arr) {
 
     return true;    
 }
-
-
-
-/*
-expected[0] = 100;
-    f1 << " ";
-    f1 << expected;
-    f1 << " 2";
-f1.close();
-
-ifstream f2(path, ios::ate);
-if (f2.fail()) {
-    cout << "Error while opening the file for reading";
-    return 0;
-}
-/*f2.seekg(-1, ios::cur);
-f2.seekg(0, ios::beg);
-f2 >> actual;
-/*f2.seekg(1, ios::cur);
-int a = f2.tellg();
-Array_ arr;
-f2 >> arr;
-cout << actual << endl << arr;
-f2.close(); */
