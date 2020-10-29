@@ -35,7 +35,7 @@ class Array_ {
         void readFromBinFile(char* path);
 
     private:
-        char* addChar(char* str, int& i, bool last, int& strLen, int& N);
+        char* addChar(char* str, int& i, int& strLen, int& N);
         int arrSize;
         int curElemNum;
         int* point;

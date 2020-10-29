@@ -32,7 +32,15 @@
         arr_count--;
     }
 
-    char* Array_::addChar(char* str, int& i, bool last, int& strLen, int& N) {
+    /// <summary>
+    /// Вспомогательный метод для сторокового представления массива. Добавляет любое int значение в строку
+    /// </summary>
+    /// <param name="str"></param>
+    /// <param name="i"></param>
+    /// <param name="strLen"></param>
+    /// <param name="N"></param>
+    /// <returns></returns>
+    char* Array_::addChar(char* str, int& i, int& strLen, int& N) {
         int elem = point[curElemNum];
         int len = elem == 0?1:0;
         char* str1 = new char[N];
@@ -56,37 +64,38 @@
                 str1 = new char[N];
                 str1 = _strdup(strTemp);
             }
-
             str1[i++] = el + '0';
+            str1[i++] = ' ';
             elem %= (int)pow(10, j);
             str1[i] = '\0';
-        }
-        if (!last) {
-            str1[i++] = ' ';
         }
         return str1;
     }
 
+    /// <summary>
+    /// Метод для строкового представления массива
+    /// </summary>
+    /// <returns></returns>
     char* Array_::toString() {
         int N = 5;
         char* str = new char[N]{0};
         int strLen = 0;
         int i = 0;
         for (curElemNum = 0; curElemNum < arrSize; curElemNum++)
-        {
-            if (curElemNum< arrSize-1)
-            {            
-                str = _strdup(addChar(str, i, false, strLen, N));
-            }
-            else {
-                str = _strdup(addChar(str, i, true, strLen, N));
-            }
+        {           
+            str = _strdup(addChar(str, i, strLen, N));
         }
         curElemNum = 0;
-        str[i] = 0;
         return str;
     }
 
+    /// <summary>
+    /// Метод для добавления элемента.
+    /// Реализован с помощью функции с неизвестным количеством параметров
+    /// </summary>
+    /// <param name="num"></param>
+    /// <param name="first"></param>
+    /// <param name=""></param>
     void Array_::addElem(unsigned int num, int first, ...) {
         int lastElemNum;
         if (num > 0) {
@@ -119,13 +128,22 @@
         else printf("The number of new elements cannot be negative!");
     }
 
+    /// <summary>
+    /// Метод для замены значения элелемента в позиции на данное значение
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="newElem"></param>
     void Array_::replaceElem(int position, int newElem) {
         if (position < arrSize && position >= 0) {
             point[position] = newElem;
         }
         else printf("Index outside the array");
     }
-
+    
+    /// <summary>
+    /// Метод для удаления эелемента по номеру
+    /// </summary>
+    /// <param name="position"></param>
     void Array_::deleteElem(int position) {
         if (position < arrSize && position >= 0) {
             for (curElemNum = position; curElemNum < arrSize; curElemNum++)
@@ -139,6 +157,11 @@
         else throw out_of_range("Index out of range");
     }
 
+    /// <summary>
+    /// Метод для поиска элемента по значению
+    /// </summary>
+    /// <param name="elem"></param>
+    /// <returns></returns>
     int Array_::searchElem(int elem) {
         while (true)
         {
@@ -153,6 +176,11 @@
         }
     }
 
+    /// <summary>
+    /// Метод для получения эелемента по его индексу
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
     int Array_::getElem(int position) {
         if (position >= arrSize || position < 0)
         {
@@ -162,20 +190,37 @@
             return point[position];
     }
 
+    /// <summary>
+    /// Метод для получения разиера массива
+    /// </summary>
+    /// <returns></returns>
     int Array_::getArrSize() {
         return arrSize;
     }
 
+    /// <summary>
+    /// Метод получения номера текущего элемента
+    /// </summary>
+    /// <returns></returns>
     int Array_::getCurElemNum() {
         return curElemNum;
     }
 
+    /// <summary>
+    /// Метод для изменения размера массива
+    /// </summary>
+    /// <param name="newSize"></param>
     void Array_::changeArrSize(int newSize) {
 
         arrSize = newSize;
         point = (int*)realloc(point, sizeof(int) * arrSize);
     }
 
+    /// <summary>
+    /// Перегрузка индексирования
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
     int& Array_::operator[](const int index) {
         if (index >= 0 && index < arrSize) {
             return point[index];
@@ -183,6 +228,12 @@
         else throw out_of_range("Index out of range");
     }
 
+    /// <summary>
+    /// Перегрузка бинарного оператора +
+    /// </summary>
+    /// <param name="ar1"></param>
+    /// <param name="ar2"></param>
+    /// <returns></returns>
     Array_ operator+(Array_& ar1, Array_& ar2) {
         int sz1 = ar1.arrSize;
         int sz2 = ar2.arrSize;
@@ -196,6 +247,10 @@
         return ar3;
     }
 
+    /// <summary>
+    /// Перегрузка оператора прсваивания
+    /// </summary>
+    /// <param name="ar"></param>
     void Array_::operator=(const Array_& ar) {
         this->arrSize = ar.arrSize;
         this->curElemNum = ar.curElemNum;
@@ -203,6 +258,10 @@
         copy(ar.point, ar.point + arrSize, this->point);
     }
 
+    /// <summary>
+    /// Перегрузка декремента
+    /// </summary>
+    /// <returns></returns>
     Array_& Array_::operator--() {
         for (curElemNum = 0; curElemNum < arrSize; curElemNum++)
         {
@@ -211,6 +270,12 @@
         return *this;
     }
 
+    /// <summary>
+    /// Перегрузка бинарного оператора -
+    /// </summary>
+    /// <param name="ar1"></param>
+    /// <param name="elem"></param>
+    /// <returns></returns>
     Array_ operator-(const Array_& ar1, int elem) {
         Array_ rez = ar1;
         int i = rez.searchElem(4);
@@ -218,11 +283,23 @@
         return rez;
     }
 
+    /// <summary>
+    /// Перегрузка оператора вывода
+    /// </summary>
+    /// <param name="os"></param>
+    /// <param name="ar"></param>
+    /// <returns></returns>
     ostream& operator<<(ostream& os, Array_ &ar) {
         os << ar.getArrSize()<< " " << ar.getCurElemNum()<< " " << ar.toString();
         return os;
     }
 
+    /// <summary>
+    /// Перегрузка опрератора ввода с консоли
+    /// </summary>
+    /// <param name="is"></param>
+    /// <param name="ar"></param>
+    /// <returns></returns>
     istream& operator>>(istream& is, Array_ &ar) {
         int arrsize;
         cout << "Enter array size: ";
@@ -237,6 +314,12 @@
         return is;
     }
 
+    /// <summary>
+    /// Перегрузка оператора чтения из файла
+    /// </summary>
+    /// <param name="is"></param>
+    /// <param name="ar"></param>
+    /// <returns></returns>
     ifstream& operator>> (ifstream& is, Array_& ar) {
         int arrsize;
         is >> arrsize;
@@ -250,6 +333,10 @@
         return is;
     }
 
+    /// <summary>
+    /// Метод для записи объектов в бинарный файл
+    /// </summary>
+    /// <param name="path"></param>
     void Array_::writeToBinFile(char* path) {
         ofstream bin_file(path);
         if (bin_file.fail()) {
@@ -260,6 +347,10 @@
         bin_file.close();
     }
 
+    /// <summary>
+    /// Метод ля чтения из бинарного файла
+    /// </summary>
+    /// <param name="path"></param>
     void Array_::readFromBinFile(char* path) {
         ifstream bin_file(path);
         if (bin_file.fail()) {
