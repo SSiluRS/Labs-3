@@ -5,13 +5,6 @@
 
     int Array_::arr_count = 0;
 
-    Array_::Array_() {
-        arrSize = 0;
-        curElemNum = 0;
-        point = nullptr;
-        arr_count++;
-    }
-
     Array_::Array_(int arrSize, int curElemNum) {
         this->arrSize = arrSize;
         this->curElemNum = curElemNum;
@@ -33,18 +26,16 @@
     }
 
     /// <summary>
-    /// Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Р№ РјРµС‚РѕРґ РґР»СЏ СЃС‚РѕСЂРѕРєРѕРІРѕРіРѕ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ РјР°СЃСЃРёРІР°. Р”РѕР±Р°РІР»СЏРµС‚ Р»СЋР±РѕРµ int Р·РЅР°С‡РµРЅРёРµ РІ СЃС‚СЂРѕРєСѓ
+    /// Вспомогательный метод для сторокового представления массива. Добавляет любое int значение в строку
     /// </summary>
     /// <param name="str"></param>
     /// <param name="i"></param>
     /// <param name="strLen"></param>
     /// <param name="N"></param>
     /// <returns></returns>
-    char* Array_::addChar(char* str, int& i, int& strLen, int& N) {
+    void Array_::addChar(char*& str, int& i, int& strLen, int& N) {
         int elem = point[curElemNum];
         int len = elem == 0?1:0;
-        char* str1 = new char[N];
-        str1 = _strdup(str);
         while (elem) {
             elem /= 10;
             len++;
@@ -60,20 +51,19 @@
             if (strLen >= N) {
                 char* strTemp = new char[N];
                 N *= 2;
-                strTemp = _strdup(str1);
-                str1 = new char[N];
-                str1 = _strdup(strTemp);
+                strTemp = _strdup(str);
+                str = new char[N];
+                str = _strdup(strTemp);
             }
-            str1[i++] = el + '0';
-            str1[i++] = ' ';
+            str[i++] = el + '0';
+            str[i++] = ' ';
             elem %= (int)pow(10, j);
-            str1[i] = '\0';
+            str[i] = '\0';
         }
-        return str1;
     }
 
     /// <summary>
-    /// РњРµС‚РѕРґ РґР»СЏ СЃС‚СЂРѕРєРѕРІРѕРіРѕ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ РјР°СЃСЃРёРІР°
+    /// Метод для строкового представления массива
     /// </summary>
     /// <returns></returns>
     char* Array_::toString() {
@@ -83,23 +73,24 @@
         int i = 0;
         for (curElemNum = 0; curElemNum < arrSize; curElemNum++)
         {           
-            str = _strdup(addChar(str, i, strLen, N));
+            addChar(str, i, strLen, N);
         }
         curElemNum = 0;
         return str;
     }
 
     /// <summary>
-    /// РњРµС‚РѕРґ РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ СЌР»РµРјРµРЅС‚Р°.
-    /// Р РµР°Р»РёР·РѕРІР°РЅ СЃ РїРѕРјРѕС‰СЊСЋ С„СѓРЅРєС†РёРё СЃ РЅРµРёР·РІРµСЃС‚РЅС‹Рј РєРѕР»РёС‡РµСЃС‚РІРѕРј РїР°СЂР°РјРµС‚СЂРѕРІ
+    /// Метод для добавления элемента.
+    /// Реализован с помощью функции с неизвестным количеством параметров
     /// </summary>
     /// <param name="num"></param>
     /// <param name="first"></param>
     /// <param name=""></param>
     void Array_::addElem(unsigned int num, int first, ...) {
         int lastElemNum;
-        if (num > 0) {
-            if (point == nullptr){
+        try {
+            if (num <= 0) throw exception("Number of elements less than or equal to zero");
+            if (point == nullptr) {
                 point = new int[num];
                 arrSize = num;
                 lastElemNum = 0;
@@ -125,23 +116,24 @@
             arrSize = lastElemNum;
             point = (int*)realloc(point, sizeof(int) * arrSize);
         }
-        else printf("The number of new elements cannot be negative!");
+        catch (exception e) {
+            cout<<e.what()<<endl;
+        }
     }
 
     /// <summary>
-    /// РњРµС‚РѕРґ РґР»СЏ Р·Р°РјРµРЅС‹ Р·РЅР°С‡РµРЅРёСЏ СЌР»РµР»РµРјРµРЅС‚Р° РІ РїРѕР·РёС†РёРё РЅР° РґР°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
+    /// Метод для замены значения элелемента в позиции на данное значение
     /// </summary>
     /// <param name="position"></param>
     /// <param name="newElem"></param>
     void Array_::replaceElem(int position, int newElem) {
-        if (position < arrSize && position >= 0) {
+        if ((position < arrSize && position >= 0))            
             point[position] = newElem;
-        }
-        else printf("Index outside the array");
+        else throw out_of_range("Index out of range");
     }
     
     /// <summary>
-    /// РњРµС‚РѕРґ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ СЌРµР»РµРјРµРЅС‚Р° РїРѕ РЅРѕРјРµСЂСѓ
+    /// Метод для удаления эелемента по номеру
     /// </summary>
     /// <param name="position"></param>
     void Array_::deleteElem(int position) {
@@ -158,7 +150,7 @@
     }
 
     /// <summary>
-    /// РњРµС‚РѕРґ РґР»СЏ РїРѕРёСЃРєР° СЌР»РµРјРµРЅС‚Р° РїРѕ Р·РЅР°С‡РµРЅРёСЋ
+    /// Метод для поиска элемента по значению
     /// </summary>
     /// <param name="elem"></param>
     /// <returns></returns>
@@ -177,7 +169,7 @@
     }
 
     /// <summary>
-    /// РњРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ СЌРµР»РµРјРµРЅС‚Р° РїРѕ РµРіРѕ РёРЅРґРµРєСЃСѓ
+    /// Метод для получения эелемента по его индексу
     /// </summary>
     /// <param name="position"></param>
     /// <returns></returns>
@@ -191,7 +183,7 @@
     }
 
     /// <summary>
-    /// РњРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ СЂР°Р·РёРµСЂР° РјР°СЃСЃРёРІР°
+    /// Метод для получения разиера массива
     /// </summary>
     /// <returns></returns>
     int Array_::getArrSize() {
@@ -199,7 +191,7 @@
     }
 
     /// <summary>
-    /// РњРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ РЅРѕРјРµСЂР° С‚РµРєСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р°
+    /// Метод получения номера текущего элемента
     /// </summary>
     /// <returns></returns>
     int Array_::getCurElemNum() {
@@ -207,7 +199,7 @@
     }
 
     /// <summary>
-    /// РњРµС‚РѕРґ РґР»СЏ РёР·РјРµРЅРµРЅРёСЏ СЂР°Р·РјРµСЂР° РјР°СЃСЃРёРІР°
+    /// Метод для изменения размера массива
     /// </summary>
     /// <param name="newSize"></param>
     void Array_::changeArrSize(int newSize) {
@@ -217,7 +209,7 @@
     }
 
     /// <summary>
-    /// РџРµСЂРµРіСЂСѓР·РєР° РёРЅРґРµРєСЃРёСЂРѕРІР°РЅРёСЏ
+    /// Перегрузка индексирования
     /// </summary>
     /// <param name="index"></param>
     /// <returns></returns>
@@ -229,7 +221,7 @@
     }
 
     /// <summary>
-    /// РџРµСЂРµРіСЂСѓР·РєР° Р±РёРЅР°СЂРЅРѕРіРѕ РѕРїРµСЂР°С‚РѕСЂР° +
+    /// Перегрузка бинарного оператора +
     /// </summary>
     /// <param name="ar1"></param>
     /// <param name="ar2"></param>
@@ -248,7 +240,7 @@
     }
 
     /// <summary>
-    /// РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° РїСЂСЃРІР°РёРІР°РЅРёСЏ
+    /// Перегрузка оператора прсваивания
     /// </summary>
     /// <param name="ar"></param>
     void Array_::operator=(const Array_& ar) {
@@ -259,7 +251,7 @@
     }
 
     /// <summary>
-    /// РџРµСЂРµРіСЂСѓР·РєР° РґРµРєСЂРµРјРµРЅС‚Р°
+    /// Перегрузка декремента
     /// </summary>
     /// <returns></returns>
     Array_& Array_::operator--() {
@@ -271,7 +263,7 @@
     }
 
     /// <summary>
-    /// РџРµСЂРµРіСЂСѓР·РєР° Р±РёРЅР°СЂРЅРѕРіРѕ РѕРїРµСЂР°С‚РѕСЂР° -
+    /// Перегрузка бинарного оператора -
     /// </summary>
     /// <param name="ar1"></param>
     /// <param name="elem"></param>
@@ -284,7 +276,7 @@
     }
 
     /// <summary>
-    /// РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° РІС‹РІРѕРґР°
+    /// Перегрузка оператора вывода
     /// </summary>
     /// <param name="os"></param>
     /// <param name="ar"></param>
@@ -295,7 +287,7 @@
     }
 
     /// <summary>
-    /// РџРµСЂРµРіСЂСѓР·РєР° РѕРїСЂРµСЂР°С‚РѕСЂР° РІРІРѕРґР° СЃ РєРѕРЅСЃРѕР»Рё
+    /// Перегрузка опрератора ввода с консоли
     /// </summary>
     /// <param name="is"></param>
     /// <param name="ar"></param>
@@ -315,7 +307,7 @@
     }
 
     /// <summary>
-    /// РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° С‡С‚РµРЅРёСЏ РёР· С„Р°Р№Р»Р°
+    /// Перегрузка оператора чтения из файла
     /// </summary>
     /// <param name="is"></param>
     /// <param name="ar"></param>
@@ -334,7 +326,7 @@
     }
 
     /// <summary>
-    /// РњРµС‚РѕРґ РґР»СЏ Р·Р°РїРёСЃРё РѕР±СЉРµРєС‚РѕРІ РІ Р±РёРЅР°СЂРЅС‹Р№ С„Р°Р№Р»
+    /// Метод для записи объектов в бинарный файл
     /// </summary>
     /// <param name="path"></param>
     void Array_::writeToBinFile(char* path) {
@@ -348,7 +340,7 @@
     }
 
     /// <summary>
-    /// РњРµС‚РѕРґ Р»СЏ С‡С‚РµРЅРёСЏ РёР· Р±РёРЅР°СЂРЅРѕРіРѕ С„Р°Р№Р»Р°
+    /// Метод ля чтения из бинарного файла
     /// </summary>
     /// <param name="path"></param>
     void Array_::readFromBinFile(char* path) {
