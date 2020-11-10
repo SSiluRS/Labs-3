@@ -3,30 +3,56 @@
 #include <iostream>
 
 using namespace std;
-
+/// <summary>
+/// Конструктор по умолчанию с параметрами
+/// </summary>
+/// <param name="arrSize"></param>
+/// <param name="curElemNum"></param>
 Queue::Queue(int arrSize, int curElemNum): Array_(arrSize, curElemNum), first(0), last(0) {}
 
+/// <summary>
+/// Конструктор копирования
+/// </summary>
+/// <param name="obj"></param>
 Queue::Queue(const Queue& obj) :Array_(obj) {
 	this->first = obj.first;
 	this->last = obj.last;
 }
 
+/// <summary>
+/// Метод проверки на заполненность очереди
+/// </summary>
+/// <returns></returns>
 bool Queue::full() const {
 	return (last+1) % (arrSize+1) == first;
 }
-
+/// <summary>
+/// Метод проверки на пустоту очереди
+/// </summary>
+/// <returns></returns>
 bool Queue::empty() const {
 	return first == last;
 }
-
+/// <summary>
+/// Метод получения первого элемента очереди
+/// </summary>
+/// <returns></returns>
 int Queue::getFirstElem() const {
 	return point[first];
 }
 
+/// <summary>
+/// Метод получения последнего элемента очереди
+/// </summary>
+/// <returns></returns>
 int Queue::getLastElem()  const {
 	return point[last];
 }
 
+/// <summary>
+/// Метод вытаскивания элементов стека по принципу FIFO
+/// </summary>
+/// <returns></returns>
 char Queue::pop() {
 	try {
 		if (empty()) throw exception("Stack is empty");
@@ -39,7 +65,12 @@ char Queue::pop() {
 		return 'e';
 	}
 }
-
+ 
+/// <summary>
+/// Помещение очередного элемента в очередь
+/// </summary>
+/// <param name="value"></param>
+/// <returns></returns>
 char Queue::enqueue(int value) {
 	try {
 		if (full()) throw exception("Queue is full");
