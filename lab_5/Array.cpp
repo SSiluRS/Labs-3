@@ -5,17 +5,10 @@
 
     int Array_::arr_count = 0;
 
-    Array_::Array_() {
-        arrSize = 0;
-        curElemNum = 0;
-        point = nullptr;
-        arr_count++;
-    }
-
     Array_::Array_(int arrSize, int curElemNum) {
         this->arrSize = arrSize;
-        this->curElemNum = curElemNum;
-        this->point = new int[arrSize];
+        this->curElemNum = curElemNum;         
+        this->point = arrSize == 0 ? nullptr : new int[arrSize];
         arr_count++;
     }
 
@@ -40,11 +33,9 @@
     /// <param name="strLen"></param>
     /// <param name="N"></param>
     /// <returns></returns>
-    char* Array_::addChar(char* str, int& i, int& strLen, int& N) {
+    void Array_::addChar(char*& str, int& i, int& strLen, int& N) {
         int elem = point[curElemNum];
         int len = elem == 0?1:0;
-        char* str1 = new char[N];
-        str1 = _strdup(str);
         while (elem) {
             elem /= 10;
             len++;
@@ -60,18 +51,18 @@
             if (strLen >= N) {
                 char* strTemp = new char[N];
                 N *= 2;
-                strTemp = _strdup(str1);
-                str1 = new char[N];
-                str1 = _strdup(strTemp);
+                strTemp = _strdup(str);
+                str = new char[N];
+                str = _strdup(strTemp);
             }
-            str1[i++] = el + '0';
-            str1[i++] = ' ';
+            str[i++] = el + '0';
+            str[i++] = ' ';
             elem %= (int)pow(10, j);
-            str1[i] = '\0';
+            str[i] = '\0';
         }
-        return str1;
-    }
 
+    }
+     
     /// <summary>
     /// Метод для строкового представления массива
     /// </summary>
@@ -83,10 +74,15 @@
         int i = 0;
         for (curElemNum = 0; curElemNum < arrSize; curElemNum++)
         {           
-            str = _strdup(addChar(str, i, strLen, N));
+            addChar(str, i, strLen, N);
         }
+
+        str[i - 1] = '\0';
         curElemNum = 0;
-        return str;
+        char* str1 = new char[256]{ "\ntoString func from Array_: " };
+        strcat_s(str1, strlen(str)+strlen(str1)+2, str);
+        strcat_s(str, strlen(str) + 3, "\n");
+        return str1;
     }
 
     /// <summary>
@@ -96,10 +92,11 @@
     /// <param name="num"></param>
     /// <param name="first"></param>
     /// <param name=""></param>
-    void Array_::addElem(unsigned int num, int first, ...) {
+    char Array_::addElem(unsigned int num, int first, ...) {
         int lastElemNum;
-        if (num > 0) {
-            if (point == nullptr){
+        try {
+            if (num <= 0) throw exception("Number of elements less than or equal to zero");
+            if (point == nullptr) {
                 point = new int[num];
                 arrSize = num;
                 lastElemNum = 0;
@@ -124,8 +121,12 @@
             }
             arrSize = lastElemNum;
             point = (int*)realloc(point, sizeof(int) * arrSize);
+            return 1;
         }
-        else printf("The number of new elements cannot be negative!");
+        catch (exception e) {
+            cout<<e.what()<<endl;
+            return 'e';
+        }
     }
 
     /// <summary>
@@ -134,10 +135,9 @@
     /// <param name="position"></param>
     /// <param name="newElem"></param>
     void Array_::replaceElem(int position, int newElem) {
-        if (position < arrSize && position >= 0) {
+        if ((position < arrSize && position >= 0))            
             point[position] = newElem;
-        }
-        else printf("Index outside the array");
+        else throw out_of_range("Index out of range");
     }
     
     /// <summary>
